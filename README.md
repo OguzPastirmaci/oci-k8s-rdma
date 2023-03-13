@@ -105,19 +105,19 @@ kube-node
 gpu_operator_preinstalled_nvidia_software: false
 ```
 
-7 -  Verify the configuration.
+6 -  Verify the configuration.
 
 ```sh
 ansible all -m raw -a "hostname"
 ```
 
-8 - Install Kubernetes using Ansible and Kubespray.
+7 - Install Kubernetes using Ansible and Kubespray.
 
 ```sh
 ansible-playbook -l k8s-cluster playbooks/k8s-cluster.yml
 ```
 
-9 - Verify that the Kubernetes cluster is running.
+8 - Verify that the Kubernetes cluster is running.
 
 ```sh
 kubectl get nodes
@@ -128,7 +128,7 @@ gpu02    Ready    <none>                 122m   v1.23.7
 mgmt01   Ready    control-plane,master   132m   v1.23.7
 ```
 
-10 - Deploy the config map for Mellanox RDMA Shared Device Plugin.
+9 - Deploy the config map for Mellanox RDMA Shared Device Plugin.
 
 Save the following file as `configmap.yaml` and deploy it using `kubectl apply -f configmap.yaml`.
 
@@ -164,7 +164,7 @@ kubectl get configmap -n kube-system | grep rdma-devices
 rdma-devices                         1      98m
 ```
 
-11 - Deploy the Mellanox RDMA Shared Device Plugin daemonset.
+10 - Deploy the Mellanox RDMA Shared Device Plugin daemonset.
 
 Save the following file as `rdma-ds.yaml` and deploy it using `kubectl apply -f rdma-ds.yaml`.
 
@@ -224,7 +224,7 @@ rdma-shared-dp-ds-5sk7t                      1/1     Running   0              94
 rdma-shared-dp-ds-lzjgc                      1/1     Running   0              94m    10.0.0.201     gpu01    <none>           <none>
 ```
 
-12 - Now let's test running `ib_write_bw` between two pods. Save the following file as `rdma-test.yaml` and deploy it.
+11 - Now let's test running `ib_write_bw` between two pods. Save the following file as `rdma-test.yaml` and deploy it.
 
 **NOTE:** When creating a pod spec, make sure that you're setting `hostNetwork: true` and request `rdma/roce: 1` as a resource. The following example spec has both options set.
 
@@ -283,7 +283,7 @@ spec:
       sleep 1000000
 ```
 
-13 - Wait until both pods are in Running state.
+12 - Wait until both pods are in Running state.
 
 ```sh
 kubectl get pods -o wide
@@ -293,7 +293,7 @@ rdma-test-pod-1   1/1     Running   0          49m   10.0.0.125   gpu02   <none>
 rdma-test-pod-2   1/1     Running   0          49m   10.0.0.70    gpu01   <none>           <none>
 ```
 
-14 - After the pods are running, open two terminals and exec into the pods.
+13 - After the pods are running, open two terminals and exec into the pods.
 
 ```sh
 kubectl exec -it rdma-test-pod-1 -- bash
@@ -301,7 +301,7 @@ kubectl exec -it rdma-test-pod-1 -- bash
 kubectl exec -it rdma-test-pod-2 -- bash
 ```
 
-15 - Confirm that you see the RDMA interfaces inside the pods.
+14 - Confirm that you see the RDMA interfaces inside the pods.
 
 ```sh
 ip ad | grep rdma
@@ -313,7 +313,7 @@ ip ad | grep rdma
 .....    
 ```
 
-17 - Run a basic `ib_write_bw` test between pods. Make sure the RDMA interface you use matches the RDMA IP (192.168.x.x). You can get the device/interface matching with the `ibdev2netdev` command.
+15 - Run a basic `ib_write_bw` test between pods. Make sure the RDMA interface you use matches the RDMA IP (192.168.x.x). You can get the device/interface matching with the `ibdev2netdev` command.
 
 In `rdma-test-pod-1` run:
 
