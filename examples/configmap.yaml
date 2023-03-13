@@ -6,7 +6,7 @@ data:
       "configList": [
         {
           "resourceName": "shared_rdma_devices",
-          "rdmaHcaMax": 16,
+          "rdmaHcaMax": 100,
           "selectors": {
             "drivers": [
               "mlx5_core"
