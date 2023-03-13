@@ -1,0 +1,21 @@
+apiVersion: v1
+data:
+  config.json: |
+    {
+      "periodicUpdateInterval": 300,
+      "configList": [
+        {
+          "resourceName": "shared_rdma_devices",
+          "rdmaHcaMax": 16,
+          "selectors": {
+            "drivers": [
+              "mlx5_core"
+            ]
+          }
+        }
+      ]
+    }
+kind: ConfigMap
+metadata:
+  name: rdma-devices
+  namespace: kube-system
