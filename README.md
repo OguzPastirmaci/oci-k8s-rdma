@@ -317,7 +317,7 @@ ip ad | grep rdma
 In `rdma-test-pod-1` run:
 
 ```
-ib_write_bw -d mlx5_3 -a -F
+ib_write_bw -d mlx5_3 -a -F --report_gbits
 ```
 
 In `rdma-test-pod-2` run:
